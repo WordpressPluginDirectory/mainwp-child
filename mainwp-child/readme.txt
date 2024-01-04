@@ -5,9 +5,9 @@ Author: mainwp
 Author URI: https://mainwp.com
 Plugin URI: https://mainwp.com
 Requires at least: 6.2
-Tested up to: 6.4.1
+Tested up to: 6.4.2
 Requires PHP: 7.4
-Stable tag: 4.5.3
+Stable tag: 4.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -165,6 +165,11 @@ Yes, we have a quick FAQ with a lot more questions and answers [here](https://ma
 10. Manage Clients Screen
 
 == Changelog ==
+
+= 4.6 - 1-3-2024 =
+* Refactored: Updated and optimized the plugin codebase to align with the latest WordPress coding standards, contributing to better compatibility and performance.
+
+[See Video Changelog](https://www.youtube.com/watch?v=_wmDS3_c_T0)
 
 = 4.5.3 - 11-6-2023 =
 * Fixed: Compatibility with the MainWP WooCommerce Status Extension to fully support WooCommerce HPOS.
