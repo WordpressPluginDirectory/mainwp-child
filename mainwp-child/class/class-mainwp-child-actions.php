@@ -559,7 +559,7 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
         $_plugins                     = $this->get_plugins();
         $plugins_to_delete            = array();
         $plugins_to_delete[ $plugin ] = isset( $_plugins[ $plugin ] ) ? $_plugins[ $plugin ] : array();
-        update_option( 'wp_mainwp_stream_plugins_to_delete', $plugins_to_delete );
+        update_option( 'wp_mainwp_child_actions_plugins_to_delete', $plugins_to_delete );
         return false;
     }
 
@@ -575,7 +575,7 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
             if ( ! isset( $_POST['action'] ) || 'delete-plugin' !== $_POST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
                 return;
             }
-            $plugins_to_delete = get_option( 'wp_mainwp_stream_plugins_to_delete' );
+            $plugins_to_delete = get_option( 'wp_mainwp_child_actions_plugins_to_delete' );
             if ( ! $plugins_to_delete ) {
                 return;
             }
@@ -592,7 +592,7 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
                     );
                 }
             }
-            delete_option( 'wp_mainwp_stream_plugins_to_delete' );
+            delete_option( 'wp_mainwp_child_actions_plugins_to_delete' );
         }
     }
 
@@ -794,7 +794,7 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
         }
 
         // Prevent any meta with null values from being logged.
-        $other_meta = array_filter(
+        $extra_info = array_filter(
             $args,
             function ( $val ) {
                 return ! is_null( $val );
@@ -802,7 +802,10 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
         );
 
         // Add user meta to Stream meta.
-        $other_meta['user_meta'] = $meta_data;
+        $other_meta = array(
+            'user_meta'  => $meta_data,
+            'extra_info' => $extra_info,
+        );
 
         $created = MainWP_Helper::get_timestamp();
 
