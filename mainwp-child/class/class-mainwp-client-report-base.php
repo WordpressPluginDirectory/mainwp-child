@@ -841,10 +841,25 @@ class MainWP_Client_Report_Base { //phpcs:ignore -- NOSONAR - multi methods.
             case 'new_version':
             case 'display_name':
             case 'roles':
+            case 'old_role':
+            case 'new_role':
                 if ( 'name' === $data && 'profiles' === $context ) {
                     $data = 'display_name';
                 }
                 $tok_value = $this->get_stream_meta_data( $record, $data );
+                if ( empty( $tok_value ) && 'roles' === $data ) {
+                    $tok_value = $this->get_stream_meta_data( $record, 'new_role' ); // Get new role from record.
+
+                    // Get old role from record.
+                    if ( empty( $tok_value ) ) {
+                        $tok_value = $this->get_stream_meta_data( $record, 'userroles' );
+                    }
+
+                    // Get current role from record.
+                    if ( empty( $tok_value ) && isset( $record->user_role ) ) {
+                        $tok_value = $record->user_role;
+                    }
+                }
                 break;
             case 'title':
                 if ( 'comments' === $context ) {
@@ -981,7 +996,7 @@ class MainWP_Client_Report_Base { //phpcs:ignore -- NOSONAR - multi methods.
             $meta_value = $this->get_stream_meta_data( $record, $data );
             if ( 'wordfence_scan' === $context ) {
                 if ( 'result' === $data ) {
-                    $completed_log  = esc_html__( 'Scan complete. Congratulations, no new problems found.', 'wordfence' );
+                    $completed_log  = esc_html__( 'Scan complete. Congratulations, no new problems found.', 'mainwp-child' );
                     $str_loc1       = MainWP_Child_Wordfence::instance()->get_substr( $completed_log, 2 ); // loc string.
                     $str_loc2       = MainWP_Child_Wordfence::instance()->get_substr( $completed_log, 3 ); // loc string.
                     $congra_str_loc = str_replace( $str_loc1, '', $str_loc2 );
@@ -1172,12 +1187,11 @@ class MainWP_Client_Report_Base { //phpcs:ignore -- NOSONAR - multi methods.
 
         $table_wfBlockedIPLog = \wfDB::networkTable( 'wfBlockedIPLog' );
 
-        $count_sql =
-            <<<SQL
-SELECT SUM(blockCount) as blockCount
-FROM {$table_wfBlockedIPLog}
-WHERE unixday >= {$interval_fromDays} AND unixday <= {$interval_toDays} {$groupingWHERE}
-SQL;
+        $count_sql = 'SELECT SUM(blockCount) as blockCount'
+            . ' FROM ' . $table_wfBlockedIPLog
+            . ' WHERE unixday >= ' . $interval_fromDays
+            . ' AND unixday <= ' . $interval_toDays
+            . $groupingWHERE;
         $count = $wpdb->get_var( $count_sql ); // phpcs:ignore -- unprepared SQL.
 
         return intval( $count );
