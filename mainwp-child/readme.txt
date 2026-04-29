@@ -7,7 +7,7 @@ Plugin URI: https://mainwp.com
 Requires at least: 6.2
 Tested up to: 6.9.4
 Requires PHP: 7.4
-Stable tag: 6.0.5
+Stable tag: 6.0.10
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,29 @@ We have an extensive FAQ with more questions and answers [here](https://mainwp.c
 11. Dashboard Insights
 
 == Changelog ==
+
+= 6.0.10 - 4-28-2026 =
+* Fixed: Improved namespace prefix handling to ensure more accurate module loading.
+* Updated: Enhanced background synchronization for detecting and reporting outdated plugins and themes.
+
+= 6.0.9 - 4-21-2026 =
+* Updated: Improved Network Activity entries for WordPress auto-updates to avoid showing "Unknown User" and better reflect automated update actions.
+
+= 6.0.8 - 4-14-2026 =
+* Fixed: Added the `normalize_theme_slug()` method to better handle theme references and prevent PHP warnings when installing themes by uploading a ZIP file.
+* Updated: Expanded Network Activity tracking to monitor core, plugin, and theme updates handled by WordPress auto-updates.
+
+= 6.0.7 - 4-7-2026 =
+
+* Fixed: Resolved an issue where the Network Activity feature continued logging events even when the feature was disabled.
+* Fixed: Conflict with the SureFeedback plugin.
+* Added: Added detailed sync monitoring with per-call timing and execution data to the Custom Event Monitor.
+* Added: Added an option to set a custom Network Activity data retention period in child site databases.
+
+= 6.0.6 - 3-31-2026 =
+
+* Fixed: Improved timestamp strict typing compatibility on newer PHP versions.
+* Fixed: Corrected an issue where the UpdraftPlus add-on option "Do not overwrite Remote Storage settings" was not respected in individual site settings.
 
 = 6.0.5 - 3-24-2026 =
 
